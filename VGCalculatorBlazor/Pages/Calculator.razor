@@ -1,0 +1,71 @@
+﻿@page "/calculator"
+@inherits CalculatorView
+
+@* @implements IDisposable *@
+
+<div class="container">
+    <table class="table">
+        <tr>
+            <td width="300">
+                @* <h5 style="margin: 5px">@CurrAnswer</h5> *@
+                <input @bind-value="@InputText" class="i1" type="text" />
+                <input @bind-value="@CalculatedResult" class="i1" type="text" />
+                @* <input @bind-value="@CurrInput" class="i1" type="text" /> *@
+                <br>
+
+                <div style="vertical-align: middle; margin: 5px">
+                    <button class="btn btn-primary b1" @onclick="@(e => NumberInput("7"))">7</button>
+                    <button class="btn btn-primary b1" @onclick="@(e => NumberInput("8"))">8</button>
+                    <button class="btn btn-primary b1" @onclick="@(e => NumberInput("9"))">9</button>
+                    <button class="btn btn-primary b1" @onclick="@(e => MathOperator("/"))">/</button>
+                    <button class="btn btn-primary b1" @onclick="@Reset">AC</button>
+                </div>
+                <div style="vertical-align: middle; margin: 5px">
+                    <button class="btn btn-primary b1" @onclick="@(e => NumberInput("4"))">4</button>
+                    <button class="btn btn-primary b1" @onclick="@(e => NumberInput("5"))">5</button>
+                    <button class="btn btn-primary b1" @onclick="@(e => NumberInput("6"))">6</button>
+                    <button class="btn btn-primary b1" @onclick="@(e => MathOperator("*"))">*</button>
+                    @* <button class="btn btn-primary b1" @onclick="@buttonclear_Click">C</button> *@
+                </div>
+                <div style="vertical-align: middle; margin: 5px">
+                    <button class="btn btn-primary b1" @onclick="@(e => NumberInput("1"))">1</button>
+                    <button class="btn btn-primary b1" @onclick="@(e => NumberInput("2"))">2</button>
+                    <button class="btn btn-primary b1" @onclick="@(e => NumberInput("3"))">3</button>
+                    <button class="btn btn-primary b1" @onclick="@(e => MathOperator("-"))">-</button>
+                    @* <button class="btn btn-primary b1" @onclick="@buttonBackSpace_Click" title="Назад">BS</button> *@
+                </div>
+                <div style="vertical-align: middle; margin: 5px">
+                    <button class="btn btn-primary b1" @onclick="@(e => NumberInput("0"))">0</button>
+                    @* <button class="btn btn-primary b1" @onclick="@buttonComp_Click">+/-</button>
+                    <button class="btn btn-primary b1" @onclick="@buttonDot_Click">.</button> *@
+                    <button class="btn btn-primary b1" @onclick="@(e => MathOperator("+"))">+</button>
+                    <button class="btn btn-primary b1" @onclick="@Calculate">=</button>
+                </div>
+                <div style="vertical-align: middle; margin: 5px">
+                    @* <button class="btn btn-primary b1" @onclick="@Button_Power_2_Click">^2</button>
+                    <button class="btn btn-primary b1" @onclick="@Button_Power_3_Click">^3</button> *@
+                    <button class="btn btn-primary" style="width:62px" @onclick="@(e => ScientificOperator("SQRT"))" title="Корень">SQRT</button>
+                    @* <button class="btn btn-primary" style="width:62px" @onclick="@RegionOperator">(</button>
+                    <button class="btn btn-primary" style="width:62px" @onclick="@RegionOperator">)</button> *@
+                </div>
+            </td>
+            <td align="left" style="margin: 5px">
+                <table width="300" style="padding-top: 15px">
+                    <thead>
+                        <h4>
+                            Протокол очередности
+                        </h4>
+                    </thead>
+                    <tbody>
+                            @foreach (var item in calculations)
+                            {
+                                <tr class="item1">
+                                    <td>@item</td>
+                                </tr>
+                            }
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>

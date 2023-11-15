@@ -66,3 +66,35 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+.i1 {
+    width: 220px;
+    margin: 5px;
+}
+
+.b1 {
+    width: 40px;
+}
+
+.flex-container {
+    display: flex;
+    background-color: lightblue;
+    margin: 10px;
+    padding: 20px;
+    font-family: Sylfaen;
+    font-size: 18px;
+}
+
+    .flex-container > div {
+        background-color: #f1f1f1;
+        margin: 10px;
+        padding: 20px;
+        font-size: 12px;
+    }
+
+
+.item1 {
+    background-color: wheat;
+    margin: 2px;
+    height: 20px;
+}

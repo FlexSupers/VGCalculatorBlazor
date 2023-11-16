@@ -8,8 +8,8 @@
         <tr>
             <td width="300">
                 @* <h5 style="margin: 5px">@CurrAnswer</h5> *@
+                <input @bind-value="@CalculatedResult" disabled class="i1" type="text" />
                 <input @bind-value="@InputText" class="i1" type="text" />
-                <input @bind-value="@CalculatedResult" class="i1" type="text" />
                 @* <input @bind-value="@CurrInput" class="i1" type="text" /> *@
                 <br>
 
@@ -25,6 +25,7 @@
                     <button class="btn btn-primary b1" @onclick="@(e => NumberInput("5"))">5</button>
                     <button class="btn btn-primary b1" @onclick="@(e => NumberInput("6"))">6</button>
                     <button class="btn btn-primary b1" @onclick="@(e => MathOperator("*"))">*</button>
+                    <button class="btn btn-primary" @onclick="@(e => ScientificOperator("SQRT"))" title="Корень">SQRT</button>
                     @* <button class="btn btn-primary b1" @onclick="@buttonclear_Click">C</button> *@
                 </div>
                 <div style="vertical-align: middle; margin: 5px">
@@ -35,16 +36,16 @@
                     @* <button class="btn btn-primary b1" @onclick="@buttonBackSpace_Click" title="Назад">BS</button> *@
                 </div>
                 <div style="vertical-align: middle; margin: 5px">
+                    <button class="btn btn-primary b1" hidden>+/-</button>
+                    <button class="btn btn-primary b1" @onclick="@(e => NumberInput("."))">.</button>
                     <button class="btn btn-primary b1" @onclick="@(e => NumberInput("0"))">0</button>
-                    @* <button class="btn btn-primary b1" @onclick="@buttonComp_Click">+/-</button>
-                    <button class="btn btn-primary b1" @onclick="@buttonDot_Click">.</button> *@
-                    <button class="btn btn-primary b1" @onclick="@(e => MathOperator("+"))">+</button>
                     <button class="btn btn-primary b1" @onclick="@Calculate">=</button>
+                    <button class="btn btn-primary b1" @onclick="@(e => MathOperator("+"))">+</button>
+                    <button class="btn btn-primary b1" @onclick="@(e => DoubleToNormalFraction(Result))">дробь</button>
                 </div>
                 <div style="vertical-align: middle; margin: 5px">
                     @* <button class="btn btn-primary b1" @onclick="@Button_Power_2_Click">^2</button>
                     <button class="btn btn-primary b1" @onclick="@Button_Power_3_Click">^3</button> *@
-                    <button class="btn btn-primary" style="width:62px" @onclick="@(e => ScientificOperator("SQRT"))" title="Корень">SQRT</button>
                     @* <button class="btn btn-primary" style="width:62px" @onclick="@RegionOperator">(</button>
                     <button class="btn btn-primary" style="width:62px" @onclick="@RegionOperator">)</button> *@
                 </div>
@@ -57,12 +58,18 @@
                         </h4>
                     </thead>
                     <tbody>
-                            @foreach (var item in calculations)
+                        @foreach (var item in calculations)
+                        {
+                            <tr class="item1">
+                                <td>@item</td>
+                            </tr>
+                            @* @if (CalculatedResult.Contains(","))
                             {
-                                <tr class="item1">
-                                    <td>@item</td>
-                                </tr>
-                            }
+                                <sup>1
+                                    <sub>2</sub>
+                                </sup>
+                            } *@
+                        }
                     </tbody>
                 </table>
             </td>

@@ -10,6 +10,7 @@ using Antlr4.Runtime;
 using NCalc.Domain;
 using NCalc;
 using System.Security.Claims;
+using System.Globalization;
 
 namespace VGCalculatorBlazor.Pages
 {
@@ -23,6 +24,12 @@ namespace VGCalculatorBlazor.Pages
         public string calculatedResult = "0";
 
         public bool isSciOpWaiting = false;
+        public long num { get; set; }
+        public long den { get; set; }
+
+        public double Result { get; set; }
+
+        public string listItem { get; set; }
 
         public List<string> calculations = new List<string>();
 
@@ -55,7 +62,7 @@ namespace VGCalculatorBlazor.Pages
                 var expression = new NCalc.Expression(inputString);
                 var result = expression.Evaluate();
 
-                var listItem = result.ToString();
+                listItem = result.ToString();
 
                 string[] tokens = InputText.Split(")");
                 /*foreach (var t in calculations)
@@ -71,9 +78,13 @@ namespace VGCalculatorBlazor.Pages
                         }
                     }
                 /*}*/
-
-                calculations.Add($"{InputText} = {listItem}");
                 CalculatedResult = result.ToString();
+                Result = Convert.ToDouble(CalculatedResult);
+                DoubleToNormalFraction(Result);
+                calculations.Add($"{InputText} = {listItem} = {num}/{den}");
+                StateHasChanged();
+                /*calculations.Add($"{InputText} = {listItem} = {num}/{den}");
+                CalculatedResult = result.ToString();*/
             }
             catch (Exception ex)
             {
@@ -134,6 +145,49 @@ namespace VGCalculatorBlazor.Pages
         {
             InputText += $"{op}(";
             isSciOpWaiting = true;
+        }
+
+        public string DoubleToNormalFraction(double numeric)
+        {
+            //Разбиваем число на целую и дробную часть
+            var numericArray = numeric.ToString().Split(new[] { CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator }, StringSplitOptions.None);
+            var wholeStr = numericArray[0];
+            var fractionStr = "0";
+            if (numericArray.Length > 1)
+                fractionStr = numericArray[1];
+
+            //Получаем степень десятки, на которую нужно умножить число, чтобы дробь стала целым 
+            var power = fractionStr.Length;
+
+            //Получаем целую часть числителя и знаменатель
+            long whole = long.Parse(wholeStr) * 10;
+            long denominator = 10;
+            for (int i = 1; i < power; i++)
+            {
+                denominator = denominator * 10;
+                whole = whole * 10;
+            }
+
+            //получаем числитель
+            var numerator = long.Parse(fractionStr);
+            numerator = numerator + whole;
+
+
+            //Ищем общий знаменатель и делим на него
+            var index = 2;
+            /*while (index < denominator / 2) //Если дошли до половины, то там его нет. Тут вообще можно брать наименьшее из числителя и знаменателя
+            {
+                if (numerator % index == 0 && denominator % index == 0)
+                {
+                    numerator = numerator / index;
+                    denominator = denominator / index;
+                    index = 1; //При i++ будет увеличен до 2х
+                }
+                index++;
+            }*/
+            num = numerator;
+            den = denominator;
+            return $"{numerator}/{denominator}";
         }
     }
 }

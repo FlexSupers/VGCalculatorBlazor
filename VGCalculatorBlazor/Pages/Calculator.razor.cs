@@ -149,17 +149,17 @@ namespace VGCalculatorBlazor.Pages
 
         public string DoubleToNormalFraction(double numeric)
         {
-            //Разбиваем число на целую и дробную часть
+            
             var numericArray = numeric.ToString().Split(new[] { CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator }, StringSplitOptions.None);
             var wholeStr = numericArray[0];
             var fractionStr = "0";
             if (numericArray.Length > 1)
                 fractionStr = numericArray[1];
 
-            //Получаем степень десятки, на которую нужно умножить число, чтобы дробь стала целым 
+             
             var power = fractionStr.Length;
 
-            //Получаем целую часть числителя и знаменатель
+            
             long whole = long.Parse(wholeStr) * 10;
             long denominator = 10;
             for (int i = 1; i < power; i++)
@@ -168,14 +168,14 @@ namespace VGCalculatorBlazor.Pages
                 whole = whole * 10;
             }
 
-            //получаем числитель
+            
             var numerator = long.Parse(fractionStr);
             numerator = numerator + whole;
 
 
-            //Ищем общий знаменатель и делим на него
+            
             var index = 2;
-            /*while (index < denominator / 2) //Если дошли до половины, то там его нет. Тут вообще можно брать наименьшее из числителя и знаменателя
+            /*while (index < denominator / 2) 
             {
                 if (numerator % index == 0 && denominator % index == 0)
                 {
